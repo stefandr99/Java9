@@ -1,0 +1,60 @@
+drop table charts;
+drop table albums;
+drop table artists;
+drop SEQUENCE id_seq; 
+drop SEQUENCE id_seq2;
+drop SEQUENCE hibernate_sequence;
+
+create table artists(
+    id integer not null,
+    name varchar(200) not null,
+    country varchar(100),
+    CONSTRAINT id_pk PRIMARY KEY (id)
+);
+
+create table albums(
+    id integer not null,
+    name varchar(300) not null,
+    artist_id integer not null,
+    release_year integer,
+    genre varchar(50),
+    CONSTRAINT id_pk2 PRIMARY KEY (id),
+	CONSTRAINT 
+     fk_id FOREIGN KEY (artist_id) 
+           REFERENCES artists(id) ON DELETE CASCADE
+);
+
+create table charts (
+	id integer not null,
+	album_id integer not null,
+	criteria varchar2(50),
+	rank integer, 
+	CONSTRAINT id_pk3 PRIMARY KEY (id),
+	CONSTRAINT 
+		fk_id2 FOREIGN KEY (album_id) 
+			REFERENCES albums(id) ON DELETE CASCADE
+);
+
+CREATE SEQUENCE id_seq
+START WITH 1
+INCREMENT BY 1;
+
+CREATE SEQUENCE id_seq2
+START WITH 1
+INCREMENT BY 1;
+
+CREATE SEQUENCE hibernate_sequence
+START WITH 1
+INCREMENT BY 1;
+
+commit;
+	
+
+
+
+
+ 
+
+
+
+

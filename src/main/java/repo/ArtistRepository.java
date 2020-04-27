@@ -1,12 +1,12 @@
 package repo;
 
-import entity.Artist;
+import entity.Artists;
 import util.PersistenceUtil;
 
 import javax.persistence.EntityManager;
 
 public class ArtistRepository {
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     /**
      * constructor unde se intializeaza entityManager cu ajutorul clasei singleton PersistenceUtil
@@ -18,18 +18,15 @@ public class ArtistRepository {
     /**
      * Functie ce adauga un artist in baza de date
      * @param artist artistul care se va introduce in baza de date
-     * @return true - succes, false altfel
      */
-    public boolean create(Artist artist) {
+    public void create(Artists artist) {
         try {
             entityManager.getTransaction().begin();
             entityManager.persist(artist);
             entityManager.getTransaction().commit();
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
     }
 
     /**
@@ -37,9 +34,8 @@ public class ArtistRepository {
      * @param id id-ul artistului pe care il voi returna din baza de date
      * @return artistul gasit
      */
-    public Artist findById(int id) {
-        Artist artist = entityManager.find(Artist.class, id);
-        return artist;
+    public Artists findById(int id) {
+        return entityManager.find(Artists.class, id);
     }
 
     /**
@@ -48,11 +44,10 @@ public class ArtistRepository {
      * @param name numele artistului pe care il cautam in baza de date
      * @return artistul gasit dupa nume
      */
-    public Artist findByName(String name) {
-        Artist artist = entityManager.createNamedQuery("Artist.findByName", Artist.class)
+    public Artists findByName(String name) {
+        return entityManager.createNamedQuery("Artist.findByName", Artists.class)
                 .setParameter("name", name)
                 .getSingleResult();
-        return artist;
     }
 
 }
